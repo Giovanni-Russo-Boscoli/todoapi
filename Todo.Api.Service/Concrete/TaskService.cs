@@ -22,17 +22,6 @@ namespace Todo.Api.Service.Concrete
             return ConvertListTodoTaskToListTodoTaskDTO(_taskRepository.GetListTaskItem(idUser));
         }
 
-        public TodoTaskDTO ConvertTodoTaskToTodoTaskViewModel(TodoTask todoTask)
-        {
-            return new TodoTaskDTO() {
-                CreationDate = todoTask.CreationDate,
-                Description = todoTask.Description,
-                ModificationDate = todoTask.ModificationDate,
-                Status = todoTask.Status,
-                Id = todoTask.Id
-            };
-        }
-
         private IList<TodoTaskDTO> ConvertListTodoTaskToListTodoTaskDTO(IList<TodoTask> listTodoTask)
         {
             if(listTodoTask == null)
@@ -59,21 +48,39 @@ namespace Todo.Api.Service.Concrete
 
         public bool AddNewTask(string idUser, string description)
         {
+            if (string.IsNullOrEmpty(idUser) || string.IsNullOrEmpty(description)) {
+                return false;
+            }
             return _taskRepository.AddNewTask(idUser, description);
         }
 
         public bool EditTask(string idUser, int idTask, string newDescription)
         {
+            //idTask != 0  in case to use DB
+            if (string.IsNullOrEmpty(idUser) || string.IsNullOrEmpty(newDescription) || idTask == 0)
+            {
+                return false;
+            }
             return _taskRepository.EditTask(idUser, idTask, newDescription);
         }
 
         public bool DeleteTask(string idUser, int idTask)
         {
+            //idTask != 0  in case to use DB
+            if (string.IsNullOrEmpty(idUser) || idTask == 0)
+            {
+                return false;
+            }
             return _taskRepository.DeleteTask(idUser, idTask);
         }
 
         public bool MarkAsDone(int idTask, string idUser, bool done)
         {
+            //idTask != 0  in case to use DB
+            if (string.IsNullOrEmpty(idUser) || idTask == 0)
+            {
+                return false;
+            }
             return _taskRepository.MarkAsDone(idTask, idUser, done);
         }
     }

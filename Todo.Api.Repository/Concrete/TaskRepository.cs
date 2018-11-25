@@ -78,7 +78,7 @@ namespace Todo.Api.Repository.Concrete
         {
                 if(!File.Exists(pathPrefix + idUser + pathSufix))
                 {
-                return null;
+                    return null;
                 }
 
                 using (StreamReader r = new StreamReader(pathPrefix + idUser + pathSufix))//TodoTaskListJson
@@ -91,7 +91,7 @@ namespace Todo.Api.Repository.Concrete
         private void UpdateJsonFile(IList<TodoTask> listTodoTask, string idUser)
         {
             string json = JsonConvert.SerializeObject(listTodoTask.ToArray());
-            System.IO.File.WriteAllText(pathPrefix + idUser + pathSufix , json);
+            File.WriteAllText(pathPrefix + idUser + pathSufix , json);
         }
 
         public bool MarkAsDone(int idTask, string idUser, bool done)
