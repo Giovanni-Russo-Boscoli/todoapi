@@ -1,0 +1,149 @@
+﻿@model IEnumerable<TodoViewModel>
+
+<script src="~/js/DataTables/jquery.dataTables.js" asp-append-version="true"></script>
+@*<script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>*@
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/DataTables/jquery.dataTables.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/images/sort_asc.png" asp-append-version="true" />
+<link rel="stylesheet" href="~/images/sort_asc_disabled.png" asp-append-version="true" />
+<link rel="stylesheet" href="~/images/sort_both.png" asp-append-version="true" />
+<link rel="stylesheet" href="~/images/sort_desc.png" asp-append-version="true" />
+<link rel="stylesheet" href="~/images/sort_desc_disabled.png" asp-append-version="true" />
+
+<style>
+
+    .form-signin {
+        margin: 0 auto;
+        max-width: 330px;
+        padding: 15px;
+    }
+
+    /*used to guarantee headers in datatables won't wrap text*/
+    .clsNoWrap {
+        white-space: nowrap
+    }
+</style>
+<br />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default container-fluid">
+            <div class="panel-heading row">
+                <div class="col-md-8">
+                    <span style="font-size:large;">
+                        Welcome '<span style="font-weight:bold;">@User.Identity.Name</span>', your TODO task list:
+                    </span>
+                </div>
+                <div class="col-md-4 text-right">
+                    <button class="btn btn-default" data-toggle="modal" data-target="#myModal" title="Add a new Task">
+                        @*onclick="AddNewTask();"*@
+                        <span class="glyphicon glyphicon-plus" style="color:green;"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table id="example" class="display" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th width="5%"></th>
+                            <th class="clsNoWrap">Creation Date</th>
+                            <th>Description</th>
+                            <th class="clsNoWrap">Modification Date</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td></td>
+                                <td class="clsNoWrap">@item.CreationDate</td>
+                                <td>@item.Description</td>
+                                <td class="clsNoWrap">@item.ModificationDate</td>
+                                <td>
+                                    <button class="btn btn-default" title="Edit Task" onclick="EditTask(this);">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-default" title="Delete Task" onclick="DeleteTask(this);">
+                                        <span class="glyphicon glyphicon-trash text-danger"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">New Task</h4>
+            </div>
+            <div class="modal-body">
+                @Html.TextBox("Description", "", new { @class = "css-class", id = "txtDescription", required = true })
+                @Html.ValidationMessage("Error")
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="myFunction();">Add Task</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.noConflict();
+
+        var table = $('#example').DataTable({
+            "order": [[1, "asc"]],
+            "bPaginate": true,
+            "bLengthChange": false, //SHOW X ENTRIES
+            "bFilter": true, //SEARCH
+            "bInfo": true, //Showing 1 to 2 of 2 entries
+            "bAutoWidth": false
+        });
+
+        //CREATE THE FIRST COLUMN WITH 'ID'
+        table.on('order.dt search.dt', function () {
+            table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        }).draw();
+    });
+
+    function EditTask(taskObj) {
+        alert(taskObj);
+    }
+
+    function DeleteTask(taskObj) {
+        alert(taskObj);
+        ToastrMessage("", "Task deleted!", "error")
+    }
+
+    function myFunction() {
+        var inpObj = document.getElementById("txtDescription");
+        if (!inpObj.checkValidity()) {
+            alert($(".field-validation-valid"));
+            document.getElementById("Error").innerHTML = inpObj.validationMessage;
+            ToastrMessage("", "Are you the six fingered man?", "success");//, "", "", "");
+        }
+    }
+</script>
+
+
