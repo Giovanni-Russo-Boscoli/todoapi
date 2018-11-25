@@ -1,4 +1,4 @@
-﻿function ToastrMessage(title, message, type, closeButton, position, ShowEasing, ) {
+﻿function ToastrMessage(title, message, type, closeButton, position, ShowEasing) {
     if (type == null) {
         type = "info";
     }

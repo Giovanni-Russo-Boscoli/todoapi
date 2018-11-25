@@ -27,10 +27,17 @@ namespace Todo.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
+            //REPOSITORY
+            services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<INavbarRepository, NavbarRepository>();
+            services.AddScoped<ILoginRepository, LoginRepository>();
+
+            //SERVICE
+            services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<INavbarService, NavbarService>();
             services.AddScoped<ILoginService, LoginService>();
-            services.AddScoped<ILoginRepository, LoginRepository>();
+            
             services.AddMvc();
         }
 

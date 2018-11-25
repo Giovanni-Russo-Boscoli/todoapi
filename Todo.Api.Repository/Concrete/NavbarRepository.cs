@@ -28,7 +28,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 300,
-                NameOption = "Prontuario",
+                NameOption = "Menu 1",
                 Controller = "Home",
                 Action = "Index",
                 ImageClass = "glyphicon glyphicon-calendar",
@@ -41,7 +41,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 400,
-                NameOption = "PsicoSocial",
+                NameOption = "Menu 2",
                 Controller = "Home",
                 Action = "Index",
                 ImageClass = "glyphicon glyphicon-calendar",
@@ -54,7 +54,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 500,
-                NameOption = "PsicoSocial 2",
+                NameOption = "Menu 3",
                 Controller = "Home",
                 Action = "Index",
                 ImageClass = "glyphicon glyphicon-calendar",
@@ -67,7 +67,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 600,
-                NameOption = "PsicoSocial 3",
+                NameOption = "Menu 4",
                 Controller = "Home",
                 Action = "Index",
                 ImageClass = "glyphicon glyphicon-calendar",
@@ -80,7 +80,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 700,
-                NameOption = "PsicoSocial 2",
+                NameOption = "Menu 5",
                 Controller = "Home",
                 Action = "Index",
                 ImageClass = "glyphicon glyphicon-calendar",
@@ -93,7 +93,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 800,
-                NameOption = "PsicoSocial 2",
+                NameOption = "Menu 6",
                 Controller = "Home",
                 Action = "Index",
                 ImageClass = "glyphicon glyphicon-calendar",
@@ -106,7 +106,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 900,
-                NameOption = "PsicoSocial 2",
+                NameOption = "Menu 7",
                 Controller = "Home",
                 Action = "Index",
                 ImageClass = "glyphicon glyphicon-calendar",
@@ -119,7 +119,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 1000,
-                NameOption = "PsicoSocial 2",
+                NameOption = "Menu 8",
                 Controller = "Home",
                 Action = "Index",
                 ImageClass = "glyphicon glyphicon-calendar",
@@ -132,7 +132,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 1,
-                NameOption = "Menu1",
+                NameOption = "Menu 9",
                 Controller = "Home",
                 Action = "Index",
                 ImageClass = "glyphicon glyphicon-calendar",
@@ -145,7 +145,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 2,
-                NameOption = "Menu2",
+                NameOption = "Menu 10",
                 Controller = "Home",
                 Action = "Index",
                 ImageClass = "glyphicon glyphicon-calendar",
@@ -158,7 +158,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 3,
-                NameOption = "Action",
+                NameOption = "Menu 11",
                 Controller = "Home",
                 Action = "Dropdown",
                 Status = false,
@@ -170,7 +170,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 4,
-                NameOption = "Another action",
+                NameOption = "Menu 12",
                 Controller = "Home",
                 Action = "Dropdown",
                 Status = false,
@@ -182,7 +182,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 5,
-                NameOption = "Something else here",
+                NameOption = "Menu 13",
                 Controller = "Home",
                 Action = "Dropdown",
                 Status = false,
@@ -194,7 +194,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 6,
-                NameOption = "Dropdown",
+                NameOption = "Menu 14",
                 Controller = "Home",
                 Action = "Dropdown",
                 Status = false,
@@ -206,7 +206,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 7,
-                NameOption = "Action - 2",
+                NameOption = "Menu 15",
                 Controller = "Home",
                 Action = "Dropdown",
                 Status = false,
@@ -218,7 +218,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 8,
-                NameOption = "Another action - 2",
+                NameOption = "Menu 16",
                 Controller = "Home",
                 Action = "Dropdown",
                 Status = false,
@@ -230,7 +230,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 9,
-                NameOption = "Something else here -2",
+                NameOption = "Menu 17",
                 Controller = "Home",
                 Action = "Dropdown",
                 Status = false,
@@ -242,7 +242,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 10,
-                NameOption = "Dropdown -2",
+                NameOption = "Menu 18",
                 Controller = "Home",
                 Action = "Dropdown",
                 Status = false,
@@ -254,7 +254,7 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 11,
-                NameOption = "Action - 3",
+                NameOption = "Menu 19",
                 Controller = "Home",
                 Action = "Dropdown",
                 Status = false,
@@ -276,7 +276,7 @@ namespace Todo.Api.Repository.Concrete
                 IsParent = false,
                 ParentId = 0,
                 RighSide = true,
-                Tooltip = "Relatórios"
+                Tooltip = "Reports"
             });
             menu.Add(new Navbar
             {
@@ -289,7 +289,7 @@ namespace Todo.Api.Repository.Concrete
                 IsParent = false,
                 ParentId = 0,
                 RighSide = true,
-                Tooltip = "Configurações"
+                Tooltip = "Configuration"
             });
             menu.Add(new Navbar
             {
@@ -302,16 +302,16 @@ namespace Todo.Api.Repository.Concrete
                 IsParent = true,
                 ParentId = 0,
                 RighSide = true,
-                Tooltip = "Usuário"
+                Tooltip = "User"
             });
             menu.Add(new Navbar
             {
                 Id = 4000,
-                NameOption = "Perfil",
+                NameOption = "Menu 20",
                 Controller = "Home",
                 Action = "Index",
                 ImageClass = "glyphicon glyphicon-user",
-                Status = true,
+                Status = false,
                 IsParent = false,
                 ParentId = 3000,
                 RighSide = true,
@@ -320,10 +320,10 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 5000,
-                NameOption = "Configurações",
+                NameOption = "Menu 21",
                 Controller = "Home",
                 Action = "Index",
-                ImageClass = "fa fa-cog",
+                ImageClass = "glyphicon glyphicon-certificate",
                 Status = false,
                 IsParent = false,
                 ParentId = 3000,
@@ -333,29 +333,16 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 6000,
-                NameOption = "Mensagens",
+                NameOption = "Menu 22",
                 Controller = "Home",
                 Action = "Index",
-                ImageClass = "fa fa-envelope",
+                ImageClass = "glyphicon glyphicon-envelope",
                 Status = false,
                 IsParent = false,
                 ParentId = 3000,
                 RighSide = true,
                 Tooltip = ""
             });
-            //menu.Add(new Navbar
-            //{
-            //    Id = 7000,
-            //    nameOption = "Sair",
-            //    controller = "Account",
-            //    action = "LogOff",
-            //    imageClass = "fa fa-power-off",
-            //    estatus = true,
-            //    isParent = false,
-            //    parentId = 3000,
-            //    righSide = true,
-            //    tooltip = ""
-            //});
 
             return menu;
         }

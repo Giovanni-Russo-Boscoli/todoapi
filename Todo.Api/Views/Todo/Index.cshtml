@@ -1,7 +1,11 @@
-﻿@model IEnumerable<TodoViewModel>
+﻿@*@model IEnumerable<TodoViewModel>*@
+
+@{
+    ViewBag.Title = "Task list";
+}
 
 <script src="~/js/DataTables/jquery.dataTables.js" asp-append-version="true"></script>
-@*<script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>*@
+<script src="~/js/TodoTask.js" asp-append-version="true"></script>
 
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/DataTables/jquery.dataTables.css" asp-append-version="true" />
@@ -13,17 +17,22 @@
 <link rel="stylesheet" href="~/images/sort_desc_disabled.png" asp-append-version="true" />
 
 <style>
-
-    .form-signin {
-        margin: 0 auto;
-        max-width: 330px;
-        padding: 15px;
-    }
-
     /*used to guarantee headers in datatables won't wrap text*/
     .clsNoWrap {
         white-space: nowrap
     }
+    th {
+        text-align: center
+    }
+    td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .taskDone {
+        background-color: #C5E3BF !important;
+    } 
+
 </style>
 <br />
 
@@ -37,17 +46,17 @@
                     </span>
                 </div>
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-default" data-toggle="modal" data-target="#myModal" title="Add a new Task">
-                        @*onclick="AddNewTask();"*@
+                    <button class="btn btn-default" data-toggle="modal" data-target="#AddEditTaskModal" title="Add a new Task" onclick="AddTask();">
                         <span class="glyphicon glyphicon-plus" style="color:green;"></span>
                     </button>
                 </div>
             </div>
             <div class="panel-body">
-                <table id="example" class="display" style="width:100%">
+                <table id="TaskListDataTable" class="display" style="width:100%">
                     <thead>
                         <tr>
                             <th width="5%"></th>
+                            <th >Done</th>
                             <th class="clsNoWrap">Creation Date</th>
                             <th>Description</th>
                             <th class="clsNoWrap">Modification Date</th>
@@ -55,95 +64,299 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td></td>
-                                <td class="clsNoWrap">@item.CreationDate</td>
-                                <td>@item.Description</td>
-                                <td class="clsNoWrap">@item.ModificationDate</td>
-                                <td>
-                                    <button class="btn btn-default" title="Edit Task" onclick="EditTask(this);">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button class="btn btn-default" title="Delete Task" onclick="DeleteTask(this);">
-                                        <span class="glyphicon glyphicon-trash text-danger"></span>
-                                    </button>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
 
-
-<div id="myModal" class="modal fade" role="dialog">
+@*MODAL*@
+<div id="AddEditTaskModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">New Task</h4>
+                <h4 class="modal-title titleHeaderModal"></h4>
             </div>
             <div class="modal-body">
-                @Html.TextBox("Description", "", new { @class = "css-class", id = "txtDescription", required = true })
-                @Html.ValidationMessage("Error")
+                <div class="form-group">
+                    <label for="comment">Description:</label>
+                    <textarea id="txtDescription" class="form-control" rows="5" required></textarea>
+                </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" onclick="myFunction();">Add Task</button>
+                <button class="btn btn-success btnTaskEvent"></button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
-
     </div>
 </div>
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
-        $.noConflict();
+    //$(document).ready(function () {
+    //    $.noConflict();
+    //    GetTaskList();
+    //});
 
-        var table = $('#example').DataTable({
-            "order": [[1, "asc"]],
-            "bPaginate": true,
-            "bLengthChange": false, //SHOW X ENTRIES
-            "bFilter": true, //SEARCH
-            "bInfo": true, //Showing 1 to 2 of 2 entries
-            "bAutoWidth": false
-        });
+    //function GetTaskList() {
+    //    $.ajax({
+    //        type: "GET",
+    //        url: '/Todo/GetListTaskItem',
+    //        data: { },
+    //        success: function (data) {
+    //            //alert(JSON.stringify(data));
+    //            LoadDataTable(data);
+    //        },
+    //        error: function (xhr, status, error) {
+    //            ToastrMessage("", "Something went wrong to load Tasks list!");
+    //        }
+    //    });
+    //}
 
-        //CREATE THE FIRST COLUMN WITH 'ID'
-        table.on('order.dt search.dt', function () {
-            table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-            });
-        }).draw();
-    });
+    //function LoadDataTable(dataObj) {
 
-    function EditTask(taskObj) {
-        alert(taskObj);
-    }
+    //    var datatableVariable = $('#TaskListDataTable').DataTable({
+    //        select: true,
+    //        "order": [[2, "asc"]],
+    //        "bPaginate": true,
+    //        "bLengthChange": false, //SHOW X ENTRIES
+    //        "bFilter": true, //SEARCH
+    //        "bInfo": true, //Showing 1 to 2 of 2 entries
+    //        "bAutoWidth": false,
+    //        "sSortColumn":"taskDone",
+    //        data: dataObj,
+    //        "columnDefs": [
+    //            {
+    //                "targets": [0],
+    //                "visible": true,
+    //                "data": null
+    //            },
+    //            {
+    //                "targets": [1],
+    //                "visible": true,
+    //                "data": null,
+    //                "sWidth": "5%",
+    //                "data": "status",
+    //                "render": function (data, type, full, meta) {
+    //                    var is_checked = full.status ? "checked" : "";
+    //                    return "<td>" +
+    //                        "<input class='glyphicon glyphicon-check' type='checkbox' onchange='CheckTask(this," + full.id + ");' "+ is_checked +"/>" +
+    //                        "</td> "
+    //                }
+    //            },
+    //            {
+    //                "targets": [2],
+    //                "visible": true,
+    //                "data": "creationDate",
+    //                "className": "clsNoWrap",
+    //                "sWidth": "5%"
+    //            },
+    //            {
+    //                "targets": [3],
+    //                "visible": true,
+    //                "data": "description"
+    //            },
+    //            {
+    //                "targets": [4],
+    //                "visible": true,
+    //                "data": "modificationDate",
+    //                "className": "clsNoWrap",
+    //                "sWidth": "5%"
+    //            },
+    //            {
+    //                "targets": [5],
+    //                "visible": true,
+    //                "data": null,
+    //                "sWidth": "5%",
+    //                "render": function (data, type, full, meta) {
+    //                    var is_disabled = full.status ? "disabled" : "";
+    //                    return "<td>" +
+    //                        "<button class='btn btn-default' title='Edit Task' onclick='EditTask(" + full.id + ",\"" + full.description + "\");'" + is_disabled + ">" +
+    //                        "<span class='glyphicon glyphicon-pencil'></span>" +
+    //                        "</button>" +
+    //                        "</td> "
+    //                }
+    //            },
+    //            {
+    //                "targets": [6],
+    //                "visible": true,
+    //                "data": null,
+    //                "sWidth": "5%",
+    //                "render": function (data, type, full, meta) {
+    //                    var is_disabled = full.status ? "disabled" : "";
+    //                    return "<td>" +
+    //                        "<button class='btn btn-default' title='Delete Task' onclick='DeleteTask(" + full.id + ");'" + is_disabled +">" +
+    //                        "<span class='glyphicon glyphicon-trash text-danger'></span>" +
+    //                        "</button>" +
+    //                        "</td> "
+    //                }
+    //            }
+    //        ],
+    //        "createdRow": function (row, data, index) {
+    //            //alert(JSON.stringify(data));
+    //            if (data.status) {
+    //                //$(row).css('background-color', '#C5E3BF');
+    //                $(row).addClass('taskDone');
+    //            }
+    //        }
+    //    });
+        
+    //    CreateIdentityColumn(datatableVariable);      
+    //}
 
-    function DeleteTask(taskObj) {
-        alert(taskObj);
-        ToastrMessage("", "Task deleted!", "error")
-    }
+    //function CreateIdentityColumn(table) {
+    //    table.on('order.dt search.dt', function () {
+    //        table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+    //            cell.innerHTML = i + 1;
+    //        });
+    //    }).draw();
+    //}
 
-    function myFunction() {
-        var inpObj = document.getElementById("txtDescription");
-        if (!inpObj.checkValidity()) {
-            alert($(".field-validation-valid"));
-            document.getElementById("Error").innerHTML = inpObj.validationMessage;
-            ToastrMessage("", "Are you the six fingered man?", "success");//, "", "", "");
-        }
-    }
+    //function RefreshTable(tableId, urlData) {
+    //    $.getJSON(urlData, null, function (json) {
+    //        table = $(tableId).dataTable();
+    //        oSettings = table.fnSettings();
+
+    //        table.fnClearTable(this);
+    //        for (var i = 0; i < json.length; i++) {
+    //            table.oApi._fnAddData(oSettings, json[i]);
+    //        }
+
+    //        oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+    //        table.fnDraw();
+    //    });
+    //}
+
+    //function AddTask() {
+    //    clearDescription();
+    //    editTitleHeaderModal('New Task');
+    //    editTextBtnTask('Add Task');
+    //    editEventBtnTask("AddTaskAjax(txtDescription);");
+    //}
+
+    //function AddTaskAjax(objTxtDescription) {
+    //    if (!objTxtDescription.checkValidity()) {
+    //        ToastrMessage("", "Description is required!", "warning");
+    //        inpObj.focus();
+    //    } else {
+    //        $.ajax({
+    //            type: "POST",
+    //            url: '/Todo/AddNewTask',
+    //            data: { idUser: 1, idTask: 1, description: $(objTxtDescription).val() },
+    //            success: function (data) {
+    //                if (data) {
+    //                    ToastrMessage("", "Task added!", "success");
+    //                    $('#AddEditTaskModal').modal('hide');
+    //                    RefreshTable("#TaskListDataTable", "/Todo/GetListTaskItem");
+    //                } else {
+    //                    ToastrMessage("", "Something went wrong", "error");
+    //                }
+    //            },
+    //            error: function (xhr, status, error) { alert(error); }
+    //        });
+    //    }
+    //}
+
+    //function EditTask(taskId, oldDescription) {
+    //    ConfirmCustom("Would you like do edit the task?", function () {
+    //        $('#AddEditTaskModal').modal('show');
+    //        editTitleHeaderModal("Editing task");
+    //        $("#txtDescription").val(oldDescription);
+    //        editTextBtnTask("Edit Task");
+    //        editEventBtnTask("EditTaskAjax(" + taskId + ",'" + oldDescription + "')");                  
+    //    });
+    //}
+
+    //function EditTaskAjax(_taskid, oldDescription) {
+       
+    //    if (oldDescription == $("#txtDescription").val()) { 
+    //        ToastrMessage("", "Nothing has changed", "warning");
+    //        return false;
+    //    }
+    //    $.ajax({
+    //            type: "PUT",
+    //            url: '/todo/EditTask',
+    //            data: { idtask: _taskid, newDescription: $("#txtDescription").val() },
+    //            success: function (data) {
+    //                if (data) {
+    //                    ToastrMessage("", "task edited successfully", "success");
+    //                    RefreshTable("#TaskListDataTable", "/Todo/GetListTaskItem");
+    //                    $('#AddEditTaskModal').modal('hide');
+    //                } else {
+    //                    ToastrMessage("", "something went wrong, was not possible to edit the task", "error");
+    //                }
+    //            },
+    //            error: function (xhr, status, error) { alert(error); }
+    //        });          
+    //}
+
+    //function DeleteTask(taskId) {
+    //    ConfirmCustom("Would you like to Delete?", function () {
+    //        $.ajax({
+    //            type: "DELETE",
+    //            url: '/Todo/DeleteTask',
+    //            data: { idTask: taskId },
+    //            success: function (data) {
+    //                if (data) {
+    //                    RefreshTable("#TaskListDataTable", "/Todo/GetListTaskItem");
+    //                    ToastrMessage("", "Task deleted!", "error")
+    //                } else {
+    //                    ToastrMessage("", "Something went wrong, was not possible to delete the task", "error");
+    //                }
+    //            },
+    //            error: function (xhr, status, error) { alert(error); }
+    //        });         
+    //    });
+    //}   
+
+    //function ConfirmCustom(message, callback) {
+    //    if (message == null || message == "") {
+    //        message = "Would you like to proceed?";
+    //    }
+    //    if (confirm(message)) {
+    //        callback();
+    //    }
+    //}
+
+    //function editTitleHeaderModal(_text) {
+    //    $('.titleHeaderModal').text(_text);
+    //}
+
+    //function editTextBtnTask(_text) {
+    //    $('.btnTaskEvent').text(_text);
+    //}
+
+    //function editEventBtnTask(_event) {
+    //    $('.btnTaskEvent').attr("onclick", _event);
+    //}
+
+    //function clearDescription() {
+    //    $("#txtDescription").val("");
+    //}
+
+    //function CheckTask(obj, _idTask) {
+    //    var partial = $(obj).prop("checked") ? "check" : "uncheck";
+    //    ConfirmCustom("Would you like to " + partial + " this task as done?", function () {
+    //        $.ajax({
+    //            type: "PUT",
+    //            url: '/Todo/MarkAsDone',
+    //            data: { idtask: _idTask, done: $(obj).prop("checked")},
+    //            success: function (data) {
+    //                if (data) {                      
+    //                    ToastrMessage("", "task marked as done", "success");
+    //                    RefreshTable("#TaskListDataTable", "/Todo/GetListTaskItem");
+    //                      //$(obj).closest("tr").find(".btnBlock").each(function () {
+    //                    //    $(this).attr("disabled", $(obj).prop("checked"));
+    //                    //});
+    //                } else {
+    //                    ToastrMessage("", "something went wrong, was not possible to edit the task", "error");
+    //                }
+    //            },
+    //            error: function (xhr, status, error) { alert(error); }
+    //        }); 
+    //    });
+    //}
+    
 </script>
-
-
