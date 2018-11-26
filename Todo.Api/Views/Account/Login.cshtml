@@ -43,11 +43,11 @@
                                 @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
                                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                             </div>
-                            <div class="checkbox">
+                            @*<div class="checkbox">
                                 <label>
                                     @Html.CheckBoxFor(m => m.RememberMe)Remember Me
                                 </label>
-                            </div>
+                            </div>*@
                             <input type="submit" value="Log in" class="btn btn-lg btn-primary btn-block" />
                         </fieldset>
                     }

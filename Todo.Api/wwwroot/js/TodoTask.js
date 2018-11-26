@@ -21,26 +21,13 @@ function GetTaskList() {
 
 function LoadDataTable(dataObj) {
 
-    //$.fn.dataTableExt.afnSortData['dom-checkbox'] = function (oSettings, iColumn) {
-    //    var aData = [];
-    //    alert(JSON.stringify(iColumn));
-    //    $(oSettings.oApi._fnGetTrNodes(oSettings)).each(function () {
-    //        alert(2);
-    //        var checker = $(this).find('.teste input');
-    //        aData.push(checker.prop("checked") == true ? "1" : "0");
-    //    });
-    //    return aData;
-    //}
-
     var datatableVariable = $('#TaskListDataTable').DataTable({
-        //select: true,
         "order": [[2, "asc"]],
         "bPaginate": true,
         "bLengthChange": false, //SHOW X ENTRIES
         "bFilter": true, //SEARCH
         "bInfo": true, //Showing 1 to 2 of 2 entries
         "bAutoWidth": false,
-        //"sSortColumn": "taskDone",
         data: dataObj,
 
         "columnDefs": [
@@ -62,8 +49,6 @@ function LoadDataTable(dataObj) {
                         "<input type='checkbox' onchange='CheckTask(this," + full.id + ");' " + is_checked + "/>" +
                         "</td> "
                 },
-                //"sSortDataType": "dom-checkbox"
-                //"orderable": false
             },
             {
                 "targets": [2],
@@ -98,7 +83,6 @@ function LoadDataTable(dataObj) {
                 "render": function (data, type, full, meta) {
                     var is_disabled = full.status ? "disabled" : "";
                     return "<td>" +
-                        //"<button class='btn btn-default' title='Edit Task' onclick='EditTask(" + full.id + ",\"" + full.description.replace("'","&apos;") + "\");'" + is_disabled + ">" +
                         "<button class='btn btn-default' title='Edit Task' onclick='EditTask(" + full.id +");'" + is_disabled + ">" +
                         "<span class='glyphicon glyphicon-pencil'></span>" +
                         "</button>" +
@@ -112,7 +96,6 @@ function LoadDataTable(dataObj) {
                 "data": null,
                 "sWidth": "5%",
                 "render": function (data, type, full, meta) {
-                    //var is_disabled = full.status ? "disabled" : ""; " + is_disabled + "
                     return "<td>" +
                         "<button class='btn btn-default' title='Delete Task' onclick='DeleteTask(" + full.id + ");'>" +
                         "<span class='glyphicon glyphicon-trash text-danger'></span>" +
@@ -187,16 +170,14 @@ function AddTaskAjax(objTxtDescription) {
     }
 }
 
-//function EditTask(taskId, oldDescription) {
 function EditTask(taskId) {
-    //alert($("." + taskId + "_description").text());
     var oldDescription = $("." + taskId + "_description").text();
     ConfirmCustom("Would you like do edit the task?", function () {
         $('#AddEditTaskModal').modal('show');
         editTitleHeaderModal("Editing task");
         $("#txtDescription").val(oldDescription);
         editTextBtnTask("Edit Task");
-        editEventBtnTask("EditTaskAjax(" + taskId + ");");// + oldDescription.replace("'","&apos;") + "')");
+        editEventBtnTask("EditTaskAjax(" + taskId + ");");
     });
 }
 
@@ -247,10 +228,8 @@ function ConfirmCustom(message, callback) {
         message = "Would you like to proceed?";
     }
     if (confirm(message)) {
-        callback();        
-        return true;
+        callback();     
     }
-    return false;
 }
 
 function editTitleHeaderModal(_text) {
@@ -270,8 +249,10 @@ function clearDescription() {
 }
 
 function CheckTask(obj, _idTask) {
+    var _bool = $(obj).prop("checked");
     var partial = $(obj).prop("checked") ? "check" : "uncheck";
-    return ConfirmCustom("Would you like to " + partial + " this task as done?", function () {
+    var answer = confirm("Would you like to " + partial + " this task as done?");
+    if (answer) {
         $.ajax({
             type: "PUT",
             url: '/Todo/MarkAsDone',
@@ -280,18 +261,30 @@ function CheckTask(obj, _idTask) {
                 if (data) {
                     ToastrMessage("", "task marked as done", "success");
                     RefreshTable("#TaskListDataTable", "/Todo/GetListTaskItem");
-                    //$(obj).closest("tr").find(".btnBlock").each(function () {
-                    //    $(this).attr("disabled", $(obj).prop("checked"));
-                    //});
                 } else {
                     ToastrMessage("", "something went wrong, was not possible to edit the task", "error");
                 }
             },
             error: function (xhr, status, error) { alert(error); }
         });
-    });
-}
-
-function replaceApostrophe(text) {
-    return  text.replace("'", "\'");
+    } else {
+        //prevent checkbox's click  (change) if user cancel confirm window
+        $(obj).prop("checked", !_bool);
+    }
+    //return ConfirmCustom("Would you like to " + partial + " this task as done?", function () {
+    //    $.ajax({
+    //        type: "PUT",
+    //        url: '/Todo/MarkAsDone',
+    //        data: { idtask: _idTask, done: $(obj).prop("checked") },
+    //        success: function (data) {
+    //            if (data) {
+    //                ToastrMessage("", "task marked as done", "success");
+    //                RefreshTable("#TaskListDataTable", "/Todo/GetListTaskItem");
+    //            } else {
+    //                ToastrMessage("", "something went wrong, was not possible to edit the task", "error");
+    //            }
+    //        },
+    //        error: function (xhr, status, error) { alert(error); }
+    //    });
+    //});
 }

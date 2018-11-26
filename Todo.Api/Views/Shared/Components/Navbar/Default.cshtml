@@ -11,18 +11,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-
-            <a href="@Url.Action("Index", "Home")" class="navbar-brand" title="Página Inicial">
-                <span class="glyphicon glyphicon-home"></span>
-            </a>
         </div>
 
         <div class="collapse navbar-collapse">
-            <!--ITENS A ESQUERDA-->
+            <!--LEFT ITEMS-->
             <ul class="nav navbar-nav">
 
-                @*TODO: TRANSFORMAR ESTE TRECHO 'comeco -> fim' EM FUNCTION[HELPER]*@
-                @*comeco*@
+                @*TODO: SHOULD BE A METHOD(htmlhelper) 'start -> end' *@
+                @*start*@
 
                 @foreach (var item in Model.Where(c => c.RighSide.Equals(false) && c.Status))
                 {
@@ -77,28 +73,20 @@
                                         </li>
                                     }
                                 }
-                                @*<li>
-                                        <form action="/Account/LogOff" method="post">
-                                            @Html.AntiForgeryToken()
-                                            <button class="btn btn-default col-lg-12"
-                                                    style="border:hidden;text-align:left;">
-                                                <span class="glyphicon glyphicon-off" style="margin-left:5%; font-size:110%;">&nbsp;Logout</span>
-                                            </button>
-                                        </form>
-                                    </li>*@
+
                             </ul>
                         </li>
                     }
                 }
             </ul>
 
-            @*fim*@
+            @*end*@
 
-            <!--ITENS A righSide-->
+            <!--RIGHT ITEMS-->
             <ul class="nav navbar-nav navbar-right">
-                @*@MontaMenu(true)*@
-                @*TODO: TRANSFORMAR ESTE TRECHO 'comeco -> fim' EM FUNCTION[HELPER]*@
-                @*comeco*@
+
+                @*TODO: SHOULD BE A METHOD(htmlhelper) 'start -> end' *@
+                @*start*@
 
                 @foreach (var item in Model.Where(c => c.RighSide.Equals(true) && c.Status))
                 {
@@ -167,7 +155,7 @@
                     }
                 }
 
-                @*fim*@
+                @*end*@
 
             </ul>
         </div><!--/.nav-collapse -->

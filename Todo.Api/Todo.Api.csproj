@@ -5,8 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Helpers\**" />
+    <Content Remove="Helpers\**" />
+    <EmbeddedResource Remove="Helpers\**" />
+    <None Remove="Helpers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Controllers\NavbarController.cs" />
-    <Compile Remove="Helpers\NavbarHelper.cs" />
     <Compile Remove="Models\TodoViewModel.cs" />
     <Compile Remove="Views\Shared\_LayoutLogin.cshtml.cs" />
   </ItemGroup>
@@ -36,10 +42,6 @@
     <ProjectReference Include="..\Todo.Api.Model\Todo.Api.Model.csproj" />
     <ProjectReference Include="..\Todo.Api.Repository\Todo.Api.Repository.csproj" />
     <ProjectReference Include="..\Todo.Api.Service\Todo.Api.Service.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Helpers\" />
   </ItemGroup>
 
   <ItemGroup>

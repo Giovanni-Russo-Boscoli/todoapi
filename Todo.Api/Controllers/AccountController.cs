@@ -51,7 +51,7 @@ namespace Todo.Api.Controllers
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(identity),
                     authProperties);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Todo");
             }
             else
             {

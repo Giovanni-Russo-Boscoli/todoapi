@@ -19,10 +19,10 @@ namespace Todo.Api.Controllers
 
         public IActionResult Index()
         {
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    return null;
-            //}
+            if (!User.Identity.IsAuthenticated)
+            {
+                return null;
+            }
 
             return View();
         }

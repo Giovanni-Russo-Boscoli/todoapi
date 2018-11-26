@@ -16,14 +16,15 @@ namespace Todo.Api.Repository.Concrete
             menu.Add(new Navbar
             {
                 Id = 100,
-                NameOption = "TODO",
+                NameOption = "ToDo",
                 Controller = "Todo",
                 Action = "Index",
                 ImageClass = "glyphicon glyphicon-th-list",
                 Status = true,
                 IsParent = false,
                 ParentId = 0,
-                RighSide = false
+                RighSide = false,
+                Tooltip = "Todo Task List"
             });
             menu.Add(new Navbar
             {
