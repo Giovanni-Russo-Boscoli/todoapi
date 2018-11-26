@@ -1,5 +1,3 @@
-Project available in:
-https://github.com/Giovanni-Russo-Boscoli/todoapi (please use master branch)
 
 Todo Task Project built using Asp.Net Core framework 2.1 using MVC model programming.
 
