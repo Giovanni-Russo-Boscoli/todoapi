@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Todo.Api.Model;
 using Todo.Api.Repository.Interface;
 using Todo.Api.Service.Interface;

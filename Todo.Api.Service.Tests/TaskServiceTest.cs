@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Todo.Api.Model;
 using Todo.Api.Repository.Interface;
 using Todo.Api.Service.Concrete;
-using Todo.Api.Service.DTO;
 using Xunit;
 
 namespace Todo.Api.Service.Tests

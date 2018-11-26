@@ -22,6 +22,10 @@ function GetTaskList() {
 function LoadDataTable(dataObj) {
 
     var datatableVariable = $('#TaskListDataTable').DataTable({
+        "language": {
+            "zeroRecords": "No task was created",
+            "infoEmpty": "No task was created",
+        },
         "order": [[2, "asc"]],
         "bPaginate": true,
         "bLengthChange": false, //SHOW X ENTRIES
@@ -49,6 +53,7 @@ function LoadDataTable(dataObj) {
                         "<input type='checkbox' onchange='CheckTask(this," + full.id + ");' " + is_checked + "/>" +
                         "</td> "
                 },
+                "orderable": false
             },
             {
                 "targets": [2],

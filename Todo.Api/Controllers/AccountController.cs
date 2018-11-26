@@ -45,7 +45,7 @@ namespace Todo.Api.Controllers
                 var authProperties = new AuthenticationProperties
                 {
                     AllowRefresh = true,
-                    IsPersistent = model.RememberMe                    
+                    //IsPersistent = model.RememberMe                    
                 };
                 await HttpContext.SignInAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme,

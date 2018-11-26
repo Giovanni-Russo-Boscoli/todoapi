@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Todo.Api.Model;
 using Todo.Api.Repository.Interface;
 
@@ -81,13 +80,12 @@ namespace Todo.Api.Repository.Concrete
                     return null;
                 }
 
-                using (StreamReader r = new StreamReader(pathPrefix + idUser + pathSufix))//TodoTaskListJson
+                using (StreamReader r = new StreamReader(pathPrefix + idUser + pathSufix))
                 {
                     return JsonConvert.DeserializeObject<IList<TodoTask>>(r.ReadToEnd());
                 }
         }
 
-        //TODO: fix return (boolean)
         private void UpdateJsonFile(IList<TodoTask> listTodoTask, string idUser)
         {
             string json = JsonConvert.SerializeObject(listTodoTask.ToArray());

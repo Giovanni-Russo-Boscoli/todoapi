@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Todo.Api.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using Todo.Api.Service.Interface;
 
 namespace Todo.Api.Controllers
