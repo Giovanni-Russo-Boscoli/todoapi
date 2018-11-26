@@ -59,7 +59,7 @@ function LoadDataTable(dataObj) {
                 "render": function (data, type, full, meta) {
                     var is_checked = full.status ? "checked" : "";
                     return "<td>" +
-                        "<input class='teste' type='checkbox' onchange='CheckTask(this," + full.id + ");' " + is_checked + "/>" +
+                        "<input type='checkbox' onchange='CheckTask(this," + full.id + ");' " + is_checked + "/>" +
                         "</td> "
                 },
                 //"sSortDataType": "dom-checkbox"
@@ -75,7 +75,13 @@ function LoadDataTable(dataObj) {
             {
                 "targets": [3],
                 "visible": true,
-                "data": "description"
+                "data": "description",
+                "render": function (data, type, full, meta) {
+                   
+                    return "<td>" +
+                        "<label class=" + full.id + "_description" + ">" + full.description + "</label>" +
+                        "</td> "
+                },
             },
             {
                 "targets": [4],
@@ -92,7 +98,8 @@ function LoadDataTable(dataObj) {
                 "render": function (data, type, full, meta) {
                     var is_disabled = full.status ? "disabled" : "";
                     return "<td>" +
-                        "<button class='btn btn-default' title='Edit Task' onclick='EditTask(" + full.id + ",\"" + full.description + "\");'" + is_disabled + ">" +
+                        //"<button class='btn btn-default' title='Edit Task' onclick='EditTask(" + full.id + ",\"" + full.description.replace("'","&apos;") + "\");'" + is_disabled + ">" +
+                        "<button class='btn btn-default' title='Edit Task' onclick='EditTask(" + full.id +");'" + is_disabled + ">" +
                         "<span class='glyphicon glyphicon-pencil'></span>" +
                         "</button>" +
                         "</td> "
@@ -180,18 +187,21 @@ function AddTaskAjax(objTxtDescription) {
     }
 }
 
-function EditTask(taskId, oldDescription) {
+//function EditTask(taskId, oldDescription) {
+function EditTask(taskId) {
+    //alert($("." + taskId + "_description").text());
+    var oldDescription = $("." + taskId + "_description").text();
     ConfirmCustom("Would you like do edit the task?", function () {
         $('#AddEditTaskModal').modal('show');
         editTitleHeaderModal("Editing task");
         $("#txtDescription").val(oldDescription);
         editTextBtnTask("Edit Task");
-        editEventBtnTask("EditTaskAjax(" + taskId + ",'" + oldDescription + "')");
+        editEventBtnTask("EditTaskAjax(" + taskId + ");");// + oldDescription.replace("'","&apos;") + "')");
     });
 }
 
-function EditTaskAjax(_taskid, oldDescription) {
-
+function EditTaskAjax(_taskid) {
+    var oldDescription = $("." + _taskid + "_description").text();
     if (oldDescription == $("#txtDescription").val()) {
         ToastrMessage("", "Nothing has changed", "warning");
         return false;
@@ -280,4 +290,8 @@ function CheckTask(obj, _idTask) {
             error: function (xhr, status, error) { alert(error); }
         });
     });
+}
+
+function replaceApostrophe(text) {
+    return  text.replace("'", "\'");
 }
